@@ -8,6 +8,10 @@
     <title>Pokédex Challenge</title>
     <link rel="stylesheet" href="./style.css">
     <script src="./script.js" defer></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+    <link rel="manifest" href="./site.webmanifest">
 </head>
 
 <body>
@@ -19,12 +23,19 @@
 
     <main>
         <div class="container">
-            <li>
-                <button class="open-button">
-                    <img src="" alt="pokemonName">
-                    <div>pokemon Name</div>
-                </button>
-            </li>
+            <div class="navigation-top">
+                <li><a href="">1</a></li>
+            </div>
+            <div class="pokemon-list">
+                <!-- <li class="pokemon-card">
+                    <button class="open-button">
+                        <div class="pokemon-img-container">
+                            <img src="" alt="pokemonName">
+                        </div>
+                        <p>pokemon Name</p>
+                    </button>
+                </li> -->
+            </div>
         </div>
     </main>
 
@@ -34,9 +45,14 @@
     </footer>
 
     <dialog class="modal" id="modal">
-        <button class="close-button">X</button>
-        <p>Pokemon</p>
+        <div>
+            <button class="close-button">X</button>
+        </div>
+        <img src="" alt="pokemonName">
+        <div>pokemonName</div>
+        <div class="pokemonInfo">
 
+        </div>
     </dialog>
 
 </body>
