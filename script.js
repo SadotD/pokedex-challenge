@@ -4,25 +4,25 @@ const previousPage = document.querySelector("#previousPage");
 const nextPage = document.querySelector("#nextPage");
 
 let offset = 1; // Initial Pokémon id to be fetched in the loop.
-let limit = 19; // Number of Pokémon to be fetched after the initial id.
+let limit = 23; // Number of Pokémon to be fetched after the initial id.
 
 previousPage.addEventListener("click", () => {
-    // Adds 20 to the initial Pokémon id to be fetched.
+    // Adds the total tiles to the initial Pokémon id to be fetched.
     if (offset != 1) {
-        offset -= 20;
+        offset -= limit + 1;
         removeChildNodes(pokemonList);
         fetchPokemons(offset, limit);
     }
 });
 
 nextPage.addEventListener("click", () => {
-    // Subtract 20 to the initial Pokémon id to be fetched.
+    // Subtract the total tiles to the initial Pokémon id to be fetched.
     if (offset <= 898 - (limit + 1)) {
-        offset += 20;
+        offset += limit + 1;
         removeChildNodes(pokemonList);
         fetchPokemons(offset, limit);
     } else {
-        offset = 879;
+        offset = 898 - limit;
         removeChildNodes(pokemonList);
         fetchPokemons(offset, limit);
     }
@@ -45,7 +45,7 @@ async function fetchPokemon(id) {
 }
 
 function capitalizeName(name) {
-    // Capitalize the first letter of the Pokémon's name.
+    // Capitalize the first letter of a name.
     return (capitalizedName = name.charAt(0).toUpperCase() + name.slice(1));
 }
 
@@ -55,12 +55,17 @@ function formatDetails(pokemon) {
     formattedPokemon["height"] = `${pokemon.height / 10} m`;
     formattedPokemon["weight"] = `${pokemon.weight / 10} kg`;
 
-    formattedPokemon["type"] = `${capitalizeName(pokemon.types[0].type.name)}`;
+    formattedPokemon["type_1"] = `${capitalizeName(
+        pokemon.types[0].type.name
+    )}`;
 
+    // Declares a value for the second type, if there isn't any it is left blank.
     if (pokemon.types[1]) {
-        formattedPokemon["type"] = `${capitalizeName(
-            pokemon.types[0].type.name
-        )} ${capitalizeName(pokemon.types[1].type.name)}`;
+        formattedPokemon["type_2"] = `${capitalizeName(
+            pokemon.types[1].type.name
+        )}`;
+    } else {
+        formattedPokemon["type_2"] = "";
     }
 
     return formattedPokemon;
@@ -93,29 +98,42 @@ function addModalInfo(pokemon) {
     pokemonImg.classList.add("modal-img");
     modal.appendChild(pokemonImg);
 
-    const pokemonName = document.createElement("p");
+    const pokemonNumber = document.createElement("p");
+    pokemonNumber.textContent = `#${pokemon.id.toString().padStart(3, 0)}`;
+    modal.appendChild(pokemonNumber);
+
+    const pokemonName = document.createElement("h2");
     pokemonName.textContent = capitalizeName(pokemon.name);
     modal.appendChild(pokemonName);
 
     const pokemonDetails = document.createElement("div");
+    pokemonDetails.classList.add("pokemon-details");
 
     const formattedPokemon = formatDetails(pokemon);
     const detailsArray = [
         ["Base experience:", formattedPokemon.base_experience],
         ["Height:", formattedPokemon.height],
         ["Weight:", formattedPokemon.weight],
-        ["Type:", formattedPokemon.type],
+        ["Type(s):", formattedPokemon.type_1],
+        ["", formattedPokemon.type_2],
     ];
 
     for (let i = 0; i < detailsArray.length; i++) {
+        if (i == 4 && !formattedPokemon.type_2) continue;
         const detailLine = document.createElement("div");
+        detailLine.classList.add("detail-line");
 
         const detailName = document.createElement("div");
         detailName.textContent = detailsArray[i][0];
+        detailName.classList.add("detail-name");
         detailLine.appendChild(detailName);
 
         const detailValue = document.createElement("div");
         detailValue.textContent = detailsArray[i][1];
+        detailValue.classList.add("detail-value");
+
+        if (i >= 3) detailValue.classList.add(detailsArray[i][1]);
+
         detailLine.appendChild(detailValue);
 
         pokemonDetails.appendChild(detailLine);
@@ -141,7 +159,6 @@ function createCard(pokemon) {
     pokemonImg.src = pokemon.sprites.front_default;
     pokemonImg.alt = pokemon.name;
     pokemonImg.loading = "lazy";
-
     pokemonImgContainer.appendChild(pokemonImg);
 
     const pokemonName = document.createElement("p");

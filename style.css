@@ -74,7 +74,7 @@ ol {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 li > button {
@@ -86,10 +86,11 @@ li > button {
     font: inherit;
     cursor: pointer;
     outline: inherit;
-    width: 20ch;
+    width: 16ch;
     max-width: auto;
     min-height: auto;
     height: auto;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .modal {
@@ -121,8 +122,36 @@ li {
     list-style: none;
 }
 
-button > p {
+button > p,
+dialog > h2 {
     margin-top: 0;
+}
+
+dialog > p {
+    margin: 0;
+}
+
+dialog > h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.modal-img {
+    width: 100%;
+    height: auto;
+}
+
+.pokemon-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.detail-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
 @media (max-width: 609px) {
