@@ -125,7 +125,7 @@ button > p {
     margin-top: 0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 609px) {
     main {
         margin: 2em 0;
     }
